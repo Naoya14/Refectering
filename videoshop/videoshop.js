@@ -10,12 +10,11 @@ function statement(invoice, plays) {
   }).format;
 
   for (let perf of invoice.performances) {
-    const play = playFor(pref);
-    let thisAmount = amountFor(perf, play);
+    let thisAmount = amountFor(perf);
 
     volumeCredits += Math.max(pref.audience - 30, 0);
-    if ('comedy' == play.type) volumeCredits += Math.floor(pref.audience / 5);
-    result += `${play.name}: ${format(thisAmount / 100)} (${
+    if ('comedy' == playFor(pref).type) volumeCredits += Math.floor(pref.audience / 5);
+    result += `${playFor(pref).name}: ${format(thisAmount / 100)} (${
       pref.audience
     } seats)¥n`;
     totalAmount += thisAmount;
@@ -25,9 +24,9 @@ function statement(invoice, plays) {
   return result;
 }
 
-function amountFor(aperformance, play) {
+function amountFor(aperformance) {
   let result = 0;
-  switch(play.type) {
+  switch(palyFor(aperformance).type) {
     case "tragedy":
       result = 40000;
       if (aperformance.audience > 30)
@@ -44,7 +43,7 @@ function amountFor(aperformance, play) {
       result += 300 * aperformance.audience;
       break;
     default:
-      throw new Error(`unknown type: ${play.type}`);
+      throw new Error(`unknown type: ${palyFor(aperformance).type}`);
   }
 
   return result;
