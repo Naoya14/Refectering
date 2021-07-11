@@ -9,15 +9,13 @@ function statement(invoice, plays) {
     minimumFractionDigits: 2,
   }).format;
 
-  for (let perf of invoice.performances) {
-    let thisAmount = amountFor(perf);
-
+  for (let perf of invoice.performances) { 
     volumeCredits += Math.max(pref.audience - 30, 0);
     if ('comedy' == playFor(pref).type) volumeCredits += Math.floor(pref.audience / 5);
-    result += `${playFor(pref).name}: ${format(thisAmount / 100)} (${
+    result += `${playFor(pref).name}: ${format(amountFor(perf) / 100)} (${
       pref.audience
     } seats)¥n`;
-    totalAmount += thisAmount;
+    totalAmount += amountFor(perf);;
   }
   result += `Amount owed is  ${format(thisAmount / 100)}¥n`;
   result += `You earned ${volumeCredits} credits¥n`;
